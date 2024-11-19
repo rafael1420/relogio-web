@@ -1,0 +1,37 @@
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #ecdede;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .clock-container {
+    margin-top: 250px;
+    padding: 20px;
+    background-color: #a58c8c;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+  }
+  
+  .clock-display {
+    font-size: 48px;
+    margin: 20px 0;
+    color: #ac1414;
+  }
+  
+  .timezone-selector {
+    margin: 10px 0;
+  }
+  
+  select {
+    padding: 5px;
+    font-size: 16px;
+  }
+
+  h1{
+    color: #000000;
+  }
+  
