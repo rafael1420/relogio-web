@@ -141,7 +141,7 @@ body::after {
   font-weight: 400;
   font-size: clamp(88px, 17vw, 210px);
   line-height: 0.85;
-  letter-spacing: -0.03em;
+  letter-spacing: 0;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
