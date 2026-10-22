@@ -4,6 +4,7 @@ const zones = [
   { tz: "UTC", city: "UTC" },
   { tz: "America/New_York", city: "Nova York" },
   { tz: "Europe/London", city: "Londres" },
+  { tz: "Europe/Dublin", city: "Dublin" },
   { tz: "Europe/Moscow", city: "Moscou" },
   { tz: "Asia/Tokyo", city: "Tóquio" },
   { tz: "Australia/Sydney", city: "Sydney" },
