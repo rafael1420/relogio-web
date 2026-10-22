@@ -1,23 +1,74 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" data-theme="noite">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#12100d">
   <title>Relógio com Fusos Horários</title>
+  <script>
+    // Aplica tema e acessibilidade antes de pintar a página, para não piscar
+    (function () {
+      try {
+        var s = JSON.parse(localStorage.getItem("ajustes") || "{}");
+        var root = document.documentElement;
+        var theme = s.theme || "auto";
+        if (theme === "auto") theme = matchMedia("(prefers-color-scheme: light)").matches ? "papel" : "noite";
+        root.dataset.theme = theme;
+        root.dataset.text = s.text || "normal";
+        if (s.contrast) root.dataset.contrast = "alto";
+      } catch (e) {}
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <a class="skip-link" href="#zones-title">Pular para a lista de fusos</a>
+
   <main class="page">
     <header class="masthead">
       <span class="brand">Meridiano</span>
       <span class="masthead-meta" id="local-zone">—</span>
+      <button class="settings-toggle" id="settings-toggle" type="button" aria-expanded="false" aria-controls="settings">
+        Ajustes
+      </button>
     </header>
 
-    <section class="hero" aria-live="off">
+    <section class="settings" id="settings" aria-label="Ajustes de aparência e acessibilidade" hidden>
+      <fieldset class="setting">
+        <legend>Tema</legend>
+        <div class="choices">
+          <label class="choice"><input type="radio" name="theme" value="auto"><span>Automático</span></label>
+          <label class="choice"><input type="radio" name="theme" value="noite"><span>Noite</span></label>
+          <label class="choice"><input type="radio" name="theme" value="papel"><span>Papel</span></label>
+          <label class="choice"><input type="radio" name="theme" value="oceano"><span>Oceano</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="setting">
+        <legend>Tamanho do texto</legend>
+        <div class="choices">
+          <label class="choice"><input type="radio" name="text" value="normal"><span>Normal</span></label>
+          <label class="choice"><input type="radio" name="text" value="grande"><span>Grande</span></label>
+          <label class="choice"><input type="radio" name="text" value="enorme"><span>Muito grande</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="setting">
+        <legend>Baixa visão</legend>
+        <label class="switch">
+          <input type="checkbox" name="contrast" id="contrast" aria-describedby="contrast-help">
+          <span>Modo alto contraste</span>
+        </label>
+        <p class="setting-help" id="contrast-help">
+          Preto, branco e amarelo, texto maior, foco reforçado e sem efeitos visuais.
+        </p>
+      </fieldset>
+    </section>
+
+    <section class="hero" aria-labelledby="time">
       <div class="dial" aria-hidden="true">
         <svg viewBox="0 0 200 200">
           <g id="ticks"></g>
@@ -34,16 +85,37 @@
           <span class="dot" aria-hidden="true">·</span>
           <span id="city-offset">GMT-3</span>
         </p>
-        <h1 class="time" id="time" aria-label="Hora atual">00:00<span class="seconds">:00</span></h1>
+
+        <div class="now">
+          <h1 class="time" id="time" aria-label="Hora atual">00:00<span class="seconds">:00</span></h1>
+
+          <div class="weather" id="weather" data-state="loading">
+            <span class="weather-icon" id="weather-icon" aria-hidden="true"></span>
+            <p class="weather-temp" id="weather-temp">—</p>
+            <p class="weather-desc" id="weather-desc">Carregando o clima…</p>
+            <p class="weather-extra" id="weather-extra"></p>
+          </div>
+        </div>
+
         <p class="date" id="date">—</p>
+
+        <button class="speak" id="speak" type="button" hidden>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"/></svg>
+          Ouvir hora e clima
+        </button>
       </div>
     </section>
 
     <section class="zones" aria-labelledby="zones-title">
-      <h2 class="zones-title" id="zones-title">Fusos horários</h2>
+      <h2 class="zones-title" id="zones-title" tabindex="-1">Fusos horários</h2>
       <ul class="zone-list" id="zone-list" role="radiogroup" aria-labelledby="zones-title"></ul>
     </section>
+
+    <p class="credit">Clima por <a href="https://open-meteo.com/">Open-Meteo</a>, atualizado a cada 15 minutos.</p>
   </main>
+
+  <!-- Avisos para leitores de tela quando a cidade muda -->
+  <p class="sr-only" id="announcer" aria-live="polite"></p>
 
   <script src="script.js"></script>
 </body>
