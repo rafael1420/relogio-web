@@ -3,31 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="script.js">
+  <meta name="theme-color" content="#12100d">
   <title>Relógio com Fusos Horários</title>
-  <link rel="stylesheet" href="styles.css">
-  
-  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="clock-container">
-    <h1>Relógio com Fusos Horários</h1>
-    <div class="clock-display">
-      <span id="time">00:00:00</span>
-    </div>
-    <div class="timezone-selector">
-        <select id="timezone">
-            <option value="America/Sao_Paulo" selected>Brasília (GMT-3)</option>
-            <option value="UTC">UTC (Padrão)</option>
-            <option value="America/New_York">Nova York (GMT-5)</option>
-            <option value="Europe/London">Londres (GMT+0)</option>
-            <option value="Asia/Tokyo">Tóquio (GMT+9)</option>
-            <option value="Australia/Sydney">Sydney (GMT+10)</option>
-            <option value="Europe/Moscow">Moscou (GMT+3)</option>
-          </select>
-    </div>
-  </div>
+  <main class="page">
+    <header class="masthead">
+      <span class="brand">Meridiano</span>
+      <span class="masthead-meta" id="local-zone">—</span>
+    </header>
+
+    <section class="hero" aria-live="off">
+      <div class="dial" aria-hidden="true">
+        <svg viewBox="0 0 200 200">
+          <g id="ticks"></g>
+          <line id="hand-hour" class="hand hand-hour" x1="100" y1="100" x2="100" y2="52"></line>
+          <line id="hand-minute" class="hand hand-minute" x1="100" y1="100" x2="100" y2="30"></line>
+          <line id="hand-second" class="hand hand-second" x1="100" y1="116" x2="100" y2="22"></line>
+          <circle class="pivot" cx="100" cy="100" r="3.5"></circle>
+        </svg>
+      </div>
+
+      <div class="readout">
+        <p class="eyebrow">
+          <span id="city-name">Brasília</span>
+          <span class="dot" aria-hidden="true">·</span>
+          <span id="city-offset">GMT-3</span>
+        </p>
+        <h1 class="time" id="time" aria-label="Hora atual">00:00<span class="seconds">:00</span></h1>
+        <p class="date" id="date">—</p>
+      </div>
+    </section>
+
+    <section class="zones" aria-labelledby="zones-title">
+      <h2 class="zones-title" id="zones-title">Fusos horários</h2>
+      <ul class="zone-list" id="zone-list" role="radiogroup" aria-labelledby="zones-title"></ul>
+    </section>
+  </main>
+
   <script src="script.js"></script>
 </body>
 </html>
